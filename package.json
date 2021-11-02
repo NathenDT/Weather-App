@@ -1,0 +1,39 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/N20Code/Weather-App.git",
+  "author": "Nathen dela Torre <35028757+N20Code@users.noreply.github.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "react-scripts start"
+  },
+  "dependencies": {
+    "@mui/material": "^5.0.6",
+    "@types/jest": "^27.0.2",
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@types/react-helmet": "^6.1.4",
+    "@types/react-router": "^5.1.17",
+    "@types/react-router-dom": "^5.3.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-scripts": "^4.0.3",
+    "sass": "^1.43.4",
+    "typescript": "^4.4.4",
+    "web-vitals": "^2.1.2"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
