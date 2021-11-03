@@ -1,11 +1,20 @@
-import { StrictMode } from 'react'
+/*
+ * Imports
+*/
+
+/* Dependency */
+// Functions
 import ReactDOM from 'react-dom'
 
+/* Local */
+// Components
 import App from './App'
 
+/*
+ * Code
+*/
+
 ReactDOM.render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
+  <App />,
   document.getElementById('root')
 )

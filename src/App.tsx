@@ -1,15 +1,24 @@
+/*
+ * Imports
+*/
+
+/* Dependency */
+// Functions
 import { useEffect, useState } from 'react'
 
+// Components
 import Head from './components/Head'
 
+/* Local */
+// Components
 import Index from './pages'
 
-import Position from './utils/interfaces/Position'
+// Interfaces
 import Weather from './utils/interfaces/Weather'
 
-const APIKEY = 'b5220e56efb144f47112992e18a84270'
-
-const city = 'honolulu'
+/*
+ * Code
+*/
 
 export default function App(): JSX.Element {
   const
@@ -32,28 +41,34 @@ export default function App(): JSX.Element {
   useEffect(() => {
     if(!navigator.geolocation) return
 
-    (async function() {
-      const [latitude, longitude] = await getPostion()
+    getWeather().then((_weather: Weather | null) => {
+      if(!_weather) return
 
-      console.log(`api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`)
-
-      const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=21.347258938445016&lon=-157.89905721327702&appid=${APIKEY}`)
-
-      if(!response.ok) return
-
-      // const json = await response.json()
-
-      // console.log(json)
-    })()
+      setWeather(_weather)
+    })
   }, [])
 
   return (
     <>
-      <Head weather = { weather } />
+      <Head weather = {weather} />
 
-      <Index />
+      <Index weather = {weather} />
     </>
   )
+}
+
+async function getWeather(): Promise<Weather | null> {
+  const APIKEY = 'b5220e56efb144f47112992e18a84270'
+
+  const [latitude, longitude] = await getPostion()
+
+  const APIURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`
+
+  const response: Response = await fetch(APIURL)
+
+  if(!response.ok) return null
+
+  return response.json()
 }
 
 function getPostion(): Promise<[number, number]> {
