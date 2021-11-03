@@ -13,11 +13,12 @@ export default function Head({ weather }: Props): JSX.Element {
     [title, setTitle] = useState('Weather App')
 
   useEffect(() => {
-    if(!Boolean(weather.name)) return
+    if(weather.name === '') return
 
     setIconID(weather.weather[0].icon)
-    setTitle(`${weather.name} Weather`)
-  }, [])
+
+    setTitle(weather.name + ' Weather')
+  }, [weather])
 
   return (
     <Helmet>

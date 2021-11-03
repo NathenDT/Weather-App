@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react'
-import { Helmet } from 'react-helmet'
 
 import Head from './components/Head'
 
+import Index from './pages'
+
+import Position from './utils/interfaces/Position'
 import Weather from './utils/interfaces/Weather'
 
-const APPID = 'b5220e56efb144f47112992e18a84270'
+const APIKEY = 'b5220e56efb144f47112992e18a84270'
+
+const city = 'honolulu'
 
 export default function App(): JSX.Element {
   const
@@ -26,27 +30,38 @@ export default function App(): JSX.Element {
     })
 
   useEffect(() => {
-    (async function() {
-      let city = 'honolulu'
+    if(!navigator.geolocation) return
 
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APPID}`)
+    (async function() {
+      const [latitude, longitude] = await getPostion()
+
+      console.log(`api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`)
+
+      const response = await fetch(`http://api.openweathermap.org/data/2.5/weather?lat=21.347258938445016&lon=-157.89905721327702&appid=${APIKEY}`)
 
       if(!response.ok) return
 
-      const data = await response.json()
+      // const json = await response.json()
 
-      setWeather(data)
+      // console.log(json)
     })()
   }, [])
 
   return (
     <>
-      <Head
-        weather = { weather }
-      />
+      <Head weather = { weather } />
 
-      <h1>Hello, World</h1>
-      <p>This is the content of the page</p>
+      <Index />
     </>
   )
+}
+
+function getPostion(): Promise<[number, number]> {
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+      const { latitude, longitude } = position.coords
+
+      resolve([latitude, longitude])
+    })
+  })
 }
