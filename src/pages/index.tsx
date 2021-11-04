@@ -7,7 +7,7 @@
 import { useEffect } from 'react';
 
 // Components
-import { Grid, Paper, Typography } from '@mui/material'
+import { Autocomplete, Grid, Paper, TextField, Typography } from '@mui/material'
 
 import { styled } from '@mui/material/styles'
 
@@ -20,6 +20,7 @@ import WeatherCard from '../components/WeatherCard'
 import TempuatureCard from '../components/TemperatureCard'
 
 // Interfaces
+import City from '../utils/interfaces/City'
 import Weather from '../utils/interfaces/Weather'
 
 /*
@@ -27,10 +28,11 @@ import Weather from '../utils/interfaces/Weather'
 */
 
 type Props = {
-  weather: Weather
+  weather: Weather,
+  cities: Array<City>
 }
 
-export default function Index({ weather }: Props): JSX.Element {
+export default function Index({ weather, cities }: Props): JSX.Element {
   useEffect(() => {
     if(!isWeatherValid(weather)) return
 
@@ -39,6 +41,16 @@ export default function Index({ weather }: Props): JSX.Element {
 
   return (
     <>
+      <Autocomplete
+        disablePortal
+        options={cities.map((city: City, index: number) => {
+          return {
+            label: city.name, value: index
+          }
+        })}
+        renderInput = {(params) => <TextField {...params} label="Search" variant="outlined" />}
+      />
+
       <Typography variant = "h3">{`${weather.name}, ${weather.sys.country}`}</Typography>
 
       <Grid container spacing = {2}>
