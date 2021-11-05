@@ -4,12 +4,11 @@
 
 /* Dependency */
 // Functions
-import { useEffect } from 'react';
+import { styled } from '@mui/system'
+import { useEffect } from 'react'
 
 // Components
-import { Autocomplete, Grid, Paper, TextField, Typography } from '@mui/material'
-
-import { styled } from '@mui/material/styles'
+import { Alert, Autocomplete, Grid, Paper, TextField, Typography } from '@mui/material'
 
 /* Local */
 // Functions
@@ -20,53 +19,71 @@ import WeatherCard from '../components/WeatherCard'
 import TempuatureCard from '../components/TemperatureCard'
 
 // Interfaces
-import City from '../utils/interfaces/City'
 import Weather from '../utils/interfaces/Weather'
 
 /*
  * Code
 */
 
+const ItemPaper = styled(Paper)({
+  padding: '1rem',
+  margin: '0.25rem',
+  textAlign: 'center',
+  backgroundColor: '#A9A9A9'
+})
+
 type Props = {
   weather: Weather,
-  cities: Array<City>
+  loading: boolean,
+  error: string
 }
 
-export default function Index({ weather, cities }: Props): JSX.Element {
+export default function Index({ loading, weather, error }: Props): JSX.Element {
   useEffect(() => {
     if(!isWeatherValid(weather)) return
 
-    console.log(weather)
   }, [weather])
 
   return (
     <>
-      <Autocomplete
-        disablePortal
-        options={cities.map((city: City, index: number) => {
-          return {
-            label: city.name, value: index
-          }
-        })}
-        renderInput = {(params) => <TextField {...params} label="Search" variant="outlined" />}
-      />
+      {error === '' || <Alert severity = "error">{error}</Alert>}
 
-      <Typography variant = "h3">{`${weather.name}, ${weather.sys.country}`}</Typography>
+      <ItemPaper>
+        <Typography variant="h3">{`${weather.name}, ${weather.sys.country}`}</Typography>
+      </ItemPaper>
 
-      <Grid container spacing = {2}>
-        <Grid
-          item
-          xs = {6}
-        >
-          <img src = "https://openweathermap.org/img/wn/10d@2x.png" />
+      <Grid container>
+        <Item>
+          <WeatherCard
+            loading={loading}
+            weather={weather}
+          />
+        </Item>
 
-          <Typography>{weather.weather[0].main}</Typography>
-
-          <Typography>{weather.weather[0].description}</Typography>
-        </Grid>
-
-        <TempuatureCard weather = {weather} />
+        <Item>
+          <TempuatureCard
+            loading={loading}
+            weather={weather}
+          />
+        </Item>
       </Grid>
     </>
+  )
+}
+
+type ItemProps = {
+  children: any
+}
+
+function Item({ children }: ItemProps): JSX.Element {
+  return (
+    <Grid
+      item
+      xs = {6}
+    >
+      <ItemPaper>
+        {children}
+      </ItemPaper>
+    </Grid>
   )
 }

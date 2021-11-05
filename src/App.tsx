@@ -17,12 +17,16 @@ import Index from './pages'
 import City from './utils/interfaces/City'
 import Weather from './utils/interfaces/Weather'
 
+// Styles
+import './styles/App.scss'
+
 /*
  * Code
 */
 
 export default function App(): JSX.Element {
   const
+    [loading, setLoading] = useState<boolean>(true),
     [weather, setWeather] = useState<Weather>({
       coord: { lon: 0, lat: 0 },
       weather: [{ id: 0, main: '', description: '', icon: '' }],
@@ -38,42 +42,31 @@ export default function App(): JSX.Element {
       name: '',
       cod: 0
     }),
-    [cities, setCities] = useState<Array<City>>([])
+    [error, setError] = useState<string>('')
 
   useEffect(() => {
-    getCities().then((_cities: Array<City> | null) => {
-      if(!_cities) return
-
-      setCities(_cities)
-    })
-
-    if(!navigator.geolocation) return
+    if(!navigator.geolocation) return setError(`Can't get your location weather`)
 
     getPositionWeather().then((_weather: Weather | null) => {
-      if(!_weather) return
+      if(!_weather) return setError(`Can't get your location weather`)
 
       setWeather(_weather)
+
+      setLoading(false)
     })
   }, [])
 
   return (
     <>
-      <Head weather = {weather} />
+      <Head weather={weather} />
 
       <Index
-        weather = {weather}
-        cities = {cities}
+        loading={loading}
+        weather={weather}
+        error={error}
       />
     </>
   )
-}
-
-async function getCities(): Promise<Array<City> | null> {
-  const response: Response = await fetch('/city.list.json')
-
-  if(!response.ok) return null
-
-  return response.json()
 }
 
 async function getPositionWeather(): Promise<Weather | null> {

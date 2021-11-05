@@ -15,20 +15,31 @@ import Weather from '../utils/interfaces/Weather'
 */
 
 type Props = {
+  loading: boolean,
   weather: Weather
 }
 
-export default function TemperatureCard({ weather }: Props) {
+export default function TemperatureCard({ loading, weather }: Props): JSX.Element {
   
   return (
-    <Grid>
-      <ToggleButtonGroup>
-        <ToggleButton value = "F">°F</ToggleButton>
-        <ToggleButton value = "C">°C</ToggleButton>
-        <ToggleButton value = "K">°K</ToggleButton>
-      </ToggleButtonGroup>
+    <>
+      <ToggleTempType />
 
-      <Typography variant = "h4">{weather.main.temp}</Typography>
-    </Grid>
+      <Typography variant="h4">{weather.main.temp}</Typography>
+
+      <Typography>{weather.main.feels_like}</Typography>
+
+      <Typography>{weather.main.temp_min + ' - ' + weather.main.temp_max}</Typography>
+    </>
+  )
+}
+
+function ToggleTempType(): JSX.Element {
+  return (
+    <ToggleButtonGroup>
+      <ToggleButton value="F">°F</ToggleButton>
+      <ToggleButton value="C">°C</ToggleButton>
+      <ToggleButton value="K">°K</ToggleButton>
+    </ToggleButtonGroup>
   )
 }

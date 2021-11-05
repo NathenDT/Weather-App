@@ -40,8 +40,8 @@ export default function Head({ weather }: Props): JSX.Element {
   return (
     <Helmet>
       <link
-        rel = "icon"
-        href = {`https://openweathermap.org/img/wn/${iconID}@2x.png`}
+        rel="icon"
+        href={`https://openweathermap.org/img/wn/${iconID}@2x.png`}
       />
 
       <title>{title}</title>
