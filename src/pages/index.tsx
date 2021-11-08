@@ -2,21 +2,23 @@
  * Imports
 */
 
-/* Dependency */
+/* Dependencies */
 // Functions
-import { styled } from '@mui/system'
 import { useEffect } from 'react'
 
 // Components
-import { Alert, Autocomplete, Grid, Paper, TextField, Typography } from '@mui/material'
+import { Alert, Grid, Stack } from '@mui/material'
 
 /* Local */
 // Functions
 import isWeatherValid from '../utils/isWeatherValid'
 
 // Components
+import Footer from '../components/Footer'
+import TemperatureCard from '../components/TemperatureCard'
+import Title from '../components/Title'
 import WeatherCard from '../components/WeatherCard'
-import TempuatureCard from '../components/TemperatureCard'
+import WindCard from '../components/WindCard'
 
 // Interfaces
 import Weather from '../utils/interfaces/Weather'
@@ -24,13 +26,6 @@ import Weather from '../utils/interfaces/Weather'
 /*
  * Code
 */
-
-const ItemPaper = styled(Paper)({
-  padding: '1rem',
-  margin: '0.25rem',
-  textAlign: 'center',
-  backgroundColor: '#A9A9A9'
-})
 
 type Props = {
   weather: Weather,
@@ -42,48 +37,56 @@ export default function Index({ loading, weather, error }: Props): JSX.Element {
   useEffect(() => {
     if(!isWeatherValid(weather)) return
 
+    // console.log(weather)
   }, [weather])
 
   return (
     <>
       {error === '' || <Alert severity = "error">{error}</Alert>}
 
-      <ItemPaper>
-        <Typography variant="h3">{`${weather.name}, ${weather.sys.country}`}</Typography>
-      </ItemPaper>
+      <Title
+        loading={loading}
+        weather={weather}
+      />
 
       <Grid container>
-        <Item>
+        <Column>
           <WeatherCard
             loading={loading}
             weather={weather}
           />
-        </Item>
 
-        <Item>
-          <TempuatureCard
+          <WindCard
+            weather={weather}
+          />
+        </Column>
+        
+        <Column>
+          <TemperatureCard
             loading={loading}
             weather={weather}
           />
-        </Item>
+        </Column>
       </Grid>
+
+      <Footer />
     </>
   )
 }
 
-type ItemProps = {
+type ColumnProps = {
   children: any
 }
 
-function Item({ children }: ItemProps): JSX.Element {
+function Column({ children }: ColumnProps): JSX.Element {
   return (
     <Grid
       item
       xs = {6}
     >
-      <ItemPaper>
+      <Stack>
         {children}
-      </ItemPaper>
+      </Stack>
     </Grid>
   )
 }

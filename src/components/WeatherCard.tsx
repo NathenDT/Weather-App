@@ -2,12 +2,14 @@
  * Imports
 */
 
-/* Dependency */
-
+/* Dependencies */
 // Components
-import { Typography } from '@mui/material'
+import { Grid, Typography } from '@mui/material'
 
 /* Local */
+// Componets
+import ItemPaper from './ItemPaper'
+
 // Interfaces
 import Weather from '../utils/interfaces/Weather'
 
@@ -22,12 +24,12 @@ type Props = {
 
 export default function WeatherCard({ loading, weather }: Props) {
   return (
-    <>
-      <img src='https://openweathermap.org/img/wn/10d@2x.png' />
+    <ItemPaper>
+      <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} />
 
       <Typography variant="h4">{weather.weather[0].main}</Typography>
       
-      <Typography>{weather.weather[0].description}</Typography>
-    </>
+      <Typography>{`${weather.name} has ${weather.weather[0].description}`}</Typography>
+    </ItemPaper>
   )
 }

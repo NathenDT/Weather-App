@@ -2,7 +2,7 @@
  * Imports
 */
 
-/* Dependency */
+/* Dependencies */
 // Functions
 import { useEffect, useState } from 'react'
 

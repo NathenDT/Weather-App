@@ -2,13 +2,28 @@
  * Imports
 */
 
-/* Dependency */
+/* Dependencies */
+// Functions
+import { useState } from 'react'
+
 // Components
-import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+
+// Styles
+import { Thermostat } from '@mui/icons-material'
 
 /* Local */
+// Function
+import TemperatureConverter from '../utils/TemperatureConverter'
+
+// Components
+import ItemPaper from './ItemPaper'
+
 // Interfaces
 import Weather from '../utils/interfaces/Weather'
+
+// Types
+import TemperatureUnits from '../utils/types/TemperatureUnits'
 
 /*
  * Code
@@ -20,23 +35,63 @@ type Props = {
 }
 
 export default function TemperatureCard({ loading, weather }: Props): JSX.Element {
+  const [tempType, setTempType] = useState<TemperatureUnits>('F')
   
   return (
-    <>
-      <ToggleTempType />
+    <ItemPaper>
+      <Title loading={loading} />
 
-      <Typography variant="h4">{weather.main.temp}</Typography>
+      <ToggleTempType
+        tempType={tempType}
+        setTempType={setTempType}
+      />
 
-      <Typography>{weather.main.feels_like}</Typography>
+      <Typography variant="h4">
+        {`${TemperatureConverter(weather.main.temp, 'K', tempType)}°${tempType}`}
+      </Typography>
 
-      <Typography>{weather.main.temp_min + ' - ' + weather.main.temp_max}</Typography>
-    </>
+      <Typography>
+        {`It feels like ${TemperatureConverter(weather.main.feels_like, 'K', tempType)}°${tempType}`}
+      </Typography>
+
+      <Typography>
+        {`${TemperatureConverter(weather.main.temp_min, 'K', tempType)}°${tempType} Low to ${TemperatureConverter(weather.main.temp_max, 'K', tempType)}°${tempType} High`}
+      </Typography>
+    </ItemPaper>
   )
 }
 
-function ToggleTempType(): JSX.Element {
+type TitleProps = {
+  loading: boolean
+}
+
+function Title({ loading }: TitleProps): JSX.Element {
   return (
-    <ToggleButtonGroup>
+    <Typography variant="h5">
+      <Thermostat style={{ fontSize: '1.5rem' }} /> Temperature
+    </Typography>
+  )
+}
+
+type ToggleTempTypeProps = {
+  tempType: TemperatureUnits,
+  setTempType: (tempType: TemperatureUnits) => void
+}
+
+function ToggleTempType({ tempType, setTempType }: ToggleTempTypeProps): JSX.Element {
+  const handleChange = (_: any, newValue: TemperatureUnits) => {
+    if(!newValue) return
+
+    setTempType(newValue)
+  }
+
+  return (
+    <ToggleButtonGroup
+      value={tempType}
+      exclusive
+      onChange={handleChange}
+      style={{ margin: '1em' }}
+    >
       <ToggleButton value="F">°F</ToggleButton>
       <ToggleButton value="C">°C</ToggleButton>
       <ToggleButton value="K">°K</ToggleButton>

@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 /*
  * Imports
 */
 
-/* Dependency */
+/* Dependencies */
 // Functions
 import { useEffect, useState } from 'react'
 
@@ -14,7 +16,6 @@ import Head from './components/Head'
 import Index from './pages'
 
 // Interfaces
-import City from './utils/interfaces/City'
 import Weather from './utils/interfaces/Weather'
 
 // Styles
@@ -23,6 +24,8 @@ import './styles/App.scss'
 /*
  * Code
 */
+
+const APIKEY = process.env.APIKEY || 'b5220e56efb144f47112992e18a84270'
 
 export default function App(): JSX.Element {
   const
@@ -54,10 +57,20 @@ export default function App(): JSX.Element {
 
       setLoading(false)
     })
+
+    const interval = setInterval(() => {
+      getPositionWeather().then((_weather: Weather | null) => {
+        if(!_weather) return setError(`Can't get your location weather`)
+
+        setWeather(_weather)
+      })
+    }, 1000 * 60 * 60) // One hour
+
+    return () => clearInterval(interval)
   }, [])
 
   return (
-    <>
+    <main>
       <Head weather={weather} />
 
       <Index
@@ -65,13 +78,11 @@ export default function App(): JSX.Element {
         weather={weather}
         error={error}
       />
-    </>
+    </main>
   )
 }
 
 async function getPositionWeather(): Promise<Weather | null> {
-  const APIKEY = 'b5220e56efb144f47112992e18a84270'
-
   const [latitude, longitude] = await getPosition()
 
   const APIURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`
