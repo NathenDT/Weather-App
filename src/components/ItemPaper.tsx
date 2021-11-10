@@ -12,12 +12,12 @@ import { Paper } from '@mui/material'
  * Code
 */
 
-const ItemPaper = styled(Paper)({
+const ItemPaper = styled(Paper)(({ theme }) => ({
   padding: '1rem',
   margin: '0.25rem',
   textAlign: 'center',
-  backgroundColor: '#89CFF0',
+  backgroundColor: theme.palette.primary.main,
   opacity: '0.75'
-})
+}))
 
 export default ItemPaper

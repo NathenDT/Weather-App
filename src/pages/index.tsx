@@ -3,22 +3,23 @@
 */
 
 /* Dependencies */
-// Functions
-import { useEffect } from 'react'
-
 // Components
 import { Alert, Grid, Stack } from '@mui/material'
 
 /* Local */
-// Functions
-import isWeatherValid from '../utils/isWeatherValid'
-
 // Components
 import Footer from '../components/Footer'
-import TemperatureCard from '../components/TemperatureCard'
+import Settings from '../components/Settings'
 import Title from '../components/Title'
-import WeatherCard from '../components/WeatherCard'
-import WindCard from '../components/WindCard'
+// - Cards
+import CloudCard from '../components/cards/Cloud'
+import HumidityCard from '../components/cards/Humidity'
+import PressureCard from '../components/cards/Pressure'
+import SunCard from '../components/cards/Sun'
+import TemperatureCard from '../components/cards/Temperature'
+import VisiblityCard from '../components/cards/Visibility'
+import WeatherCard from '../components/cards/Weather'
+import WindCard from '../components/cards/Wind'
 
 // Interfaces
 import Weather from '../utils/interfaces/Weather'
@@ -34,12 +35,6 @@ type Props = {
 }
 
 export default function Index({ loading, weather, error }: Props): JSX.Element {
-  useEffect(() => {
-    if(!isWeatherValid(weather)) return
-
-    // console.log(weather)
-  }, [weather])
-
   return (
     <>
       {error === '' || <Alert severity = "error">{error}</Alert>}
@@ -59,6 +54,19 @@ export default function Index({ loading, weather, error }: Props): JSX.Element {
           <WindCard
             weather={weather}
           />
+
+          <CloudCard
+          />
+
+          <HumidityCard />
+
+          <PressureCard
+            weather={weather}
+          />
+
+          <SunCard />
+
+          <VisiblityCard />
         </Column>
         
         <Column>
@@ -70,6 +78,8 @@ export default function Index({ loading, weather, error }: Props): JSX.Element {
       </Grid>
 
       <Footer />
+
+      <Settings />
     </>
   )
 }

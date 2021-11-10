@@ -8,10 +8,10 @@ import { Grid, Typography } from '@mui/material'
 
 /* Local */
 // Componets
-import ItemPaper from './ItemPaper'
+import ItemPaper from '../ItemPaper'
 
 // Interfaces
-import Weather from '../utils/interfaces/Weather'
+import Weather from '../../utils/interfaces/Weather'
 
 /*
  * Code

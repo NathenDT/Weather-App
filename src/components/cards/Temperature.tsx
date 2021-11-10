@@ -14,16 +14,16 @@ import { Thermostat } from '@mui/icons-material'
 
 /* Local */
 // Function
-import TemperatureConverter from '../utils/TemperatureConverter'
+import TemperatureConverter from '../../utils/TemperatureConverter'
 
 // Components
-import ItemPaper from './ItemPaper'
+import ItemPaper from '../ItemPaper'
 
 // Interfaces
-import Weather from '../utils/interfaces/Weather'
+import Weather from '../../utils/interfaces/Weather'
 
 // Types
-import TemperatureUnits from '../utils/types/TemperatureUnits'
+import TemperatureUnits from '../../utils/types/TemperatureUnits'
 
 /*
  * Code

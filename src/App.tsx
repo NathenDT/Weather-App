@@ -8,11 +8,16 @@ require('dotenv').config()
 // Functions
 import { useEffect, useState } from 'react'
 
-// Components
-import Head from './components/Head'
+// Styles
+import { CssBaseline, ScopedCssBaseline } from '@mui/material'
+import { createTheme, Theme ,ThemeProvider, styled } from '@mui/material/styles'
 
 /* Local */
+// Function
+import timeTheme from './utils/timeTheme'
+
 // Components
+import Head from './components/Head'
 import Index from './pages'
 
 // Interfaces
@@ -26,6 +31,28 @@ import './styles/App.scss'
 */
 
 const APIKEY = process.env.APIKEY || 'b5220e56efb144f47112992e18a84270'
+
+const darkTheme: Theme = createTheme({
+  palette: {
+    background: {
+      default: '#3B3C40',
+    },
+    text: {
+      primary: '#EFEFED'
+    }
+  }
+})
+
+const lightTheme: Theme = createTheme({
+  palette: {
+    background: {
+      default: '#EFEFED',
+    },
+    text: {
+      primary: '#3B3C40'
+    }
+  }
+})
 
 export default function App(): JSX.Element {
   const
@@ -45,6 +72,7 @@ export default function App(): JSX.Element {
       name: '',
       cod: 0
     }),
+    [themeType, setThemeType] = useState<'dark' | 'light' | 'time'>('time'),
     [error, setError] = useState<string>('')
 
   useEffect(() => {
@@ -56,6 +84,8 @@ export default function App(): JSX.Element {
       setWeather(_weather)
 
       setLoading(false)
+      
+      // console.log(_weather)
     })
 
     const interval = setInterval(() => {
@@ -73,11 +103,19 @@ export default function App(): JSX.Element {
     <main>
       <Head weather={weather} />
 
-      <Index
-        loading={loading}
-        weather={weather}
-        error={error}
-      />
+      <ThemeProvider theme={
+        themeType === 'time' ?
+        (timeTheme(weather) === 'Night' ? darkTheme : lightTheme) :
+        (themeType === 'dark' ? darkTheme : lightTheme)
+      }>
+        <CssBaseline />
+
+        <Index
+          loading={loading}
+          weather={weather}
+          error={error}
+        />
+      </ThemeProvider>
     </main>
   )
 }

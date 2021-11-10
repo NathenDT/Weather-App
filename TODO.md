@@ -1,0 +1,10 @@
+- [ ] Make a cards folder
+- [ ] Make cards:
+  - [ ] pressure
+  - [ ] humidity
+  - [ ] visibility
+  - [ ] cloud percent
+  - [ ] Sun rise/set
+- [ ] Make a settings dialog
+- [ ] Make the read me better
+- [ ] Make loading on each card work

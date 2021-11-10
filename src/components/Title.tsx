@@ -4,7 +4,10 @@
 
 /* Dependencies */
 // Components
-import { Skeleton, Typography } from '@mui/material'
+import { IconButton, Skeleton, Typography } from '@mui/material'
+
+// Styles
+import { Settings } from '@mui/icons-material'
 
 /* Local */
 // Components
@@ -36,9 +39,6 @@ export default function Title({ loading, weather }: Props) {
           {`${weather.name}, ${weather.sys.country}`}
         </Typography>
       )}
-        {/* <Typography variant="h3">
-          {`${weather.name}, ${weather.sys.country}`}
-        </Typography> */}
     </ItemPaper>
   )
 }

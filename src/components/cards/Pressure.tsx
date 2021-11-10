@@ -8,10 +8,10 @@ import { Typography } from '@mui/material'
 
 /* Locals */
 // Components
-import ItemPaper from './ItemPaper'
+import ItemPaper from '../ItemPaper'
 
 // Interfaces
-import Weather from '../utils/interfaces/Weather'
+import Weather from '../../utils/interfaces/Weather'
 
 /*
  * Code
@@ -21,13 +21,13 @@ type Props = {
   weather: Weather
 }
 
-export default function WindCard({ weather }: Props): JSX.Element {
+export default function PressureCard({ weather }: Props): JSX.Element {
   return (
     <ItemPaper>
-      <Typography variant="h6">Wind</Typography>
+      <Typography variant="h6">Pressure</Typography>
       
       <Typography variant="body1">
-        {weather.wind.speed} m/s
+        {weather.main.pressure} hPa
       </Typography>
     </ItemPaper>
   )
