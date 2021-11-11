@@ -5,6 +5,8 @@
   - [ ] visibility
   - [ ] cloud percent
   - [ ] Sun rise/set
+  - [ ] Date
 - [ ] Make a settings dialog
 - [ ] Make the read me better
 - [ ] Make loading on each card work
+- [ ] Make the settings dialog work

@@ -18,10 +18,11 @@ import Weather from '../../utils/interfaces/Weather'
 */
 
 type Props = {
+  loading: boolean,
   weather: Weather
 }
 
-export default function WindCard({ weather }: Props): JSX.Element {
+export default function WindCard({ loading, weather }: Props): JSX.Element {
   return (
     <ItemPaper>
       <Typography variant="h6">Wind</Typography>

@@ -24,17 +24,35 @@ import WindCard from '../components/cards/Wind'
 // Interfaces
 import Weather from '../utils/interfaces/Weather'
 
+// Types
+import TemperatureUnit from '../utils/types/TemperatureUnits'
+import ThemeTypes from '../utils/types/ThemeTypes'
+
 /*
  * Code
 */
 
 type Props = {
-  weather: Weather,
   loading: boolean,
-  error: string
+  weather: Weather,
+  currentDate: Date,
+  tempType: TemperatureUnit,
+  themeType: ThemeTypes,
+  error: string,
+  setThemeType: (themeType: ThemeTypes) => void,
+  setTempType: (tempType: TemperatureUnit) => void,
 }
 
-export default function Index({ loading, weather, error }: Props): JSX.Element {
+export default function Index({
+  loading,
+  weather,
+  currentDate,
+  tempType,
+  themeType,
+  error,
+  setThemeType,
+  setTempType,
+}: Props): JSX.Element {
   return (
     <>
       {error === '' || <Alert severity = "error">{error}</Alert>}
@@ -52,27 +70,42 @@ export default function Index({ loading, weather, error }: Props): JSX.Element {
           />
 
           <WindCard
+            loading={loading}
             weather={weather}
           />
 
           <CloudCard
-          />
-
-          <HumidityCard />
-
-          <PressureCard
+            loading={loading}
             weather={weather}
           />
 
-          <SunCard />
+          <HumidityCard
+            loading={loading}
+            weather={weather}
+          />
 
-          <VisiblityCard />
+          <PressureCard
+            loading={loading}
+            weather={weather}
+          />
+
+          <SunCard
+            loading={loading}
+            weather={weather}
+          />
+
+          <VisiblityCard
+            loading={loading}
+            weather={weather}
+          />
         </Column>
         
         <Column>
           <TemperatureCard
             loading={loading}
             weather={weather}
+            tempType={tempType}
+            setTempType={setTempType}
           />
         </Column>
       </Grid>

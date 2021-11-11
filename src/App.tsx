@@ -9,8 +9,8 @@ require('dotenv').config()
 import { useEffect, useState } from 'react'
 
 // Styles
-import { CssBaseline, ScopedCssBaseline } from '@mui/material'
-import { createTheme, Theme ,ThemeProvider, styled } from '@mui/material/styles'
+import { CssBaseline } from '@mui/material'
+import { createTheme, Theme ,ThemeProvider } from '@mui/material/styles'
 
 /* Local */
 // Function
@@ -20,11 +20,15 @@ import timeTheme from './utils/timeTheme'
 import Head from './components/Head'
 import Index from './pages'
 
+// Styles
+import './styles/App.scss'
+
 // Interfaces
 import Weather from './utils/interfaces/Weather'
 
-// Styles
-import './styles/App.scss'
+// Types
+import TemperatureUnit from './utils/types/TemperatureUnits'
+import ThemeTypes from './utils/types/ThemeTypes'
 
 /*
  * Code
@@ -49,7 +53,7 @@ const lightTheme: Theme = createTheme({
       default: '#EFEFED',
     },
     text: {
-      primary: '#3B3C40'
+      primary: '#000000'
     }
   }
 })
@@ -72,7 +76,9 @@ export default function App(): JSX.Element {
       name: '',
       cod: 0
     }),
-    [themeType, setThemeType] = useState<'dark' | 'light' | 'time'>('time'),
+    [currentDate, setCurrentDate] = useState<Date>(new Date()),
+    [tempType, setTempType] = useState<TemperatureUnit>('F'),
+    [themeType, setThemeType] = useState<ThemeTypes>('time'),
     [error, setError] = useState<string>('')
 
   useEffect(() => {
@@ -94,9 +100,16 @@ export default function App(): JSX.Element {
 
         setWeather(_weather)
       })
-    }, 1000 * 60 * 60) // One hour
+    }, 1000 * 60 * 60) // One Hour
 
-    return () => clearInterval(interval)
+    const intervalDate = setInterval(() => {
+      setCurrentDate(new Date())
+  }, 1000) // One Second
+
+    return () => {
+      clearInterval(interval)
+      clearInterval(intervalDate)
+    }
   }, [])
 
   return (
@@ -113,7 +126,12 @@ export default function App(): JSX.Element {
         <Index
           loading={loading}
           weather={weather}
+          themeType={themeType}
+          tempType={tempType}
+          currentDate={currentDate}
           error={error}
+          setThemeType={setThemeType}
+          setTempType={setTempType}
         />
       </ThemeProvider>
     </main>

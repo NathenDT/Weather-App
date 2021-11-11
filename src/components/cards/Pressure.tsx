@@ -18,16 +18,17 @@ import Weather from '../../utils/interfaces/Weather'
 */
 
 type Props = {
+  loading: boolean,
   weather: Weather
 }
 
-export default function PressureCard({ weather }: Props): JSX.Element {
+export default function PressureCard({ loading, weather }: Props): JSX.Element {
   return (
     <ItemPaper>
       <Typography variant="h6">Pressure</Typography>
       
       <Typography variant="body1">
-        {weather.main.pressure} hPa
+        {weather.main.pressure} mb
       </Typography>
     </ItemPaper>
   )

@@ -3,9 +3,6 @@
 */
 
 /* Dependencies */
-// Functions
-import { useState } from 'react'
-
 // Components
 import { ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
 
@@ -31,12 +28,12 @@ import TemperatureUnits from '../../utils/types/TemperatureUnits'
 
 type Props = {
   loading: boolean,
-  weather: Weather
+  weather: Weather,
+  tempType: TemperatureUnits,
+  setTempType: (tempType: TemperatureUnits) => void
 }
 
-export default function TemperatureCard({ loading, weather }: Props): JSX.Element {
-  const [tempType, setTempType] = useState<TemperatureUnits>('F')
-  
+export default function TemperatureCard({ loading, weather, tempType, setTempType }: Props): JSX.Element {  
   return (
     <ItemPaper>
       <Title loading={loading} />
