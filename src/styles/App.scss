@@ -5,15 +5,16 @@ html, body {
   font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
-  // background-color: #535355; // F4F4F2
   width: 100vw;
 }
 
-main {
+#root {
+  padding: 1em;
   width: 500px;
   margin: auto;
+  overflow-x: overlay;
 
-  @media (max-width: 500px) {
-    width: 100vw;
+  @media (max-width: 600px) {
+    width: 100%;
   }
 }

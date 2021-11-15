@@ -7,10 +7,15 @@ require('dotenv').config()
 /* Dependencies */
 // Functions
 import { useEffect, useState } from 'react'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
+// Components
+import { ThemeProvider } from '@mui/material/styles'
+import { DndProvider } from 'react-dnd'
 
 // Styles
 import { CssBaseline } from '@mui/material'
-import { createTheme, Theme ,ThemeProvider } from '@mui/material/styles'
+import { createTheme, Theme } from '@mui/material/styles'
 
 /* Local */
 // Function
@@ -18,7 +23,7 @@ import timeTheme from './utils/timeTheme'
 
 // Components
 import Head from './components/Head'
-import Index from './pages'
+import Index from './pages/index'
 
 // Styles
 import './styles/App.scss'
@@ -78,7 +83,7 @@ export default function App(): JSX.Element {
     }),
     [currentDate, setCurrentDate] = useState<Date>(new Date()),
     [tempType, setTempType] = useState<TemperatureUnit>('F'),
-    [themeType, setThemeType] = useState<ThemeTypes>('time'),
+    [themeType, setThemeType] = useState<ThemeTypes>('dark'),
     [error, setError] = useState<string>('')
 
   useEffect(() => {
@@ -104,44 +109,47 @@ export default function App(): JSX.Element {
 
     const intervalDate = setInterval(() => {
       setCurrentDate(new Date())
-  }, 1000) // One Second
+    }, 100) // One Hundred Milliseconds
 
     return () => {
       clearInterval(interval)
+
       clearInterval(intervalDate)
     }
   }, [])
 
   return (
-    <main>
+    <>
       <Head weather={weather} />
 
       <ThemeProvider theme={
         themeType === 'time' ?
-        (timeTheme(weather) === 'Night' ? darkTheme : lightTheme) :
+        (timeTheme(weather, currentDate) === 'Night' ? darkTheme : lightTheme) :
         (themeType === 'dark' ? darkTheme : lightTheme)
       }>
-        <CssBaseline />
+        <DndProvider backend={HTML5Backend}>
+          <CssBaseline />
 
-        <Index
-          loading={loading}
-          weather={weather}
-          themeType={themeType}
-          tempType={tempType}
-          currentDate={currentDate}
-          error={error}
-          setThemeType={setThemeType}
-          setTempType={setTempType}
-        />
+          <Index
+            loading={loading}
+            weather={weather}
+            themeType={themeType}
+            tempType={tempType}
+            currentDate={currentDate}
+            error={error}
+            setThemeType={setThemeType}
+            setTempType={setTempType}
+          />
+        </DndProvider>
       </ThemeProvider>
-    </main>
+    </>
   )
 }
 
 async function getPositionWeather(): Promise<Weather | null> {
   const [latitude, longitude] = await getPosition()
 
-  const APIURL = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`
+  const APIURL: string = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`
 
   const response: Response = await fetch(APIURL)
 

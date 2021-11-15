@@ -5,8 +5,13 @@
   - [ ] visibility
   - [ ] cloud percent
   - [ ] Sun rise/set
-  - [ ] Date
-- [ ] Make a settings dialog
+  - [ ] Date 
 - [ ] Make the read me better
 - [ ] Make loading on each card work
-- [ ] Make the settings dialog work
+- [ ] Make the .env file work
+- [ ] Add drag and drop of cards
+- [ ] Settings Dialog
+  - [ ] Make the settings dialog work
+  - [ ] Add a close button to settings
+  - [ ] Make settings dialog background the theme kind
+- [ ] Have a offline page

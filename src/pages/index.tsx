@@ -3,16 +3,20 @@
 */
 
 /* Dependencies */
+// Functions
+import { useDrag } from 'react-dnd'
+
 // Components
 import { Alert, Grid, Stack } from '@mui/material'
 
 /* Local */
 // Components
 import Footer from '../components/Footer'
-import Settings from '../components/Settings'
+import Settings from '../components/settings/Index'
 import Title from '../components/Title'
 // - Cards
 import CloudCard from '../components/cards/Cloud'
+import DateCard from '../components/cards/Date'
 import HumidityCard from '../components/cards/Humidity'
 import PressureCard from '../components/cards/Pressure'
 import SunCard from '../components/cards/Sun'
@@ -53,6 +57,50 @@ export default function Index({
   setThemeType,
   setTempType,
 }: Props): JSX.Element {
+
+  const cards = [
+    [
+      <WeatherCard
+        loading={loading}
+        weather={weather}
+      />,
+      <WindCard
+        loading={loading}
+        weather={weather}
+      />,
+      <CloudCard
+        loading={loading}
+        weather={weather}
+      />,
+      <HumidityCard
+        loading={loading}
+        weather={weather}
+      />,
+      <PressureCard
+        loading={loading}
+        weather={weather}
+      />,
+      <SunCard
+        loading={loading}
+        weather={weather}
+      />,
+      <VisiblityCard
+        loading={loading}
+        weather={weather}
+      />,
+    ],
+    [
+      <TemperatureCard
+        loading={loading}
+        weather={weather}
+        tempType={tempType}
+      />,
+      <DateCard
+        currentDate={currentDate}
+      />
+    ]
+  ]
+  
   return (
     <>
       {error === '' || <Alert severity = "error">{error}</Alert>}
@@ -64,55 +112,22 @@ export default function Index({
 
       <Grid container>
         <Column>
-          <WeatherCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <WindCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <CloudCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <HumidityCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <PressureCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <SunCard
-            loading={loading}
-            weather={weather}
-          />
-
-          <VisiblityCard
-            loading={loading}
-            weather={weather}
-          />
+          {cards[0]}
         </Column>
-        
+
         <Column>
-          <TemperatureCard
-            loading={loading}
-            weather={weather}
-            tempType={tempType}
-            setTempType={setTempType}
-          />
+          {cards[1]}
         </Column>
-      </Grid>
+      </Grid>        
 
       <Footer />
 
-      <Settings />
+      <Settings
+        tempType={tempType}
+        themeType={themeType}
+        setTempType={setTempType}
+        setThemeType={setThemeType}
+      />
     </>
   )
 }
@@ -125,7 +140,7 @@ function Column({ children }: ColumnProps): JSX.Element {
   return (
     <Grid
       item
-      xs = {6}
+      xs={6}
     >
       <Stack>
         {children}

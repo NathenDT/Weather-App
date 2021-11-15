@@ -4,11 +4,11 @@
 
 /* Dependencies */
 // Components
-import { Grid, Typography } from '@mui/material'
+import { Skeleton, Typography } from '@mui/material'
 
 /* Local */
 // Componets
-import ItemPaper from '../ItemPaper'
+import Card from '../Card'
 
 // Interfaces
 import Weather from '../../utils/interfaces/Weather'
@@ -22,14 +22,24 @@ type Props = {
   weather: Weather
 }
 
-export default function WeatherCard({ loading, weather }: Props) {
+export default function WeatherCard({ loading, weather }: Props): JSX.Element {
   return (
-    <ItemPaper>
-      <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} />
+    <Card>
+      {loading ? <Skeleton
+        variant="rectangular"
+        width={100}
+        height={100}
+        style={{ margin: '0 auto' }}
+      /> : <img
+        src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+        // alt={weather.weather[0].description}
+        width="100"
+        height="100"
+      />}
 
-      <Typography variant="h4">{weather.weather[0].main}</Typography>
+      <Typography variant="h4">{loading ? <Skeleton /> : weather.weather[0].main}</Typography>
       
-      <Typography>{`${weather.name} has ${weather.weather[0].description}`}</Typography>
-    </ItemPaper>
+      <Typography>{loading ? <Skeleton /> : `${weather.name} has ${weather.weather[0].description}`}</Typography>
+    </Card>
   )
 }

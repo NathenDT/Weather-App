@@ -4,11 +4,11 @@
 
 /* Dependencies */
 // Components
-import { Typography } from '@mui/material'
+import { Skeleton, Typography } from '@mui/material'
 
 /* Locals */
 // Components
-import ItemPaper from '../ItemPaper'
+import Card from '../Card'
 
 // Interfaces
 import Weather from '../../utils/interfaces/Weather'
@@ -24,12 +24,12 @@ type Props = {
 
 export default function PressureCard({ loading, weather }: Props): JSX.Element {
   return (
-    <ItemPaper>
+    <Card>
       <Typography variant="h6">Pressure</Typography>
       
       <Typography variant="body1">
-        {weather.main.pressure} mb
+        {loading ? <Skeleton /> : weather.main.pressure + ' mb'}
       </Typography>
-    </ItemPaper>
+    </Card>
   )
 }

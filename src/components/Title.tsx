@@ -4,10 +4,7 @@
 
 /* Dependencies */
 // Components
-import { IconButton, Skeleton, Typography } from '@mui/material'
-
-// Styles
-import { Settings } from '@mui/icons-material'
+import { Skeleton, Typography } from '@mui/material'
 
 /* Local */
 // Components
@@ -25,20 +22,12 @@ type Props = {
   weather: Weather
 }
 
-export default function Title({ loading, weather }: Props) {
+export default function Title({ loading, weather }: Props): JSX.Element {
   return (
     <ItemPaper>
-      {loading ? (
-        <Skeleton
-          variant="rectangular"
-          width="100%"
-          height={50}
-        />
-      ) : (
-        <Typography variant="h3" component="h1">
-          {`${weather.name}, ${weather.sys.country}`}
-        </Typography>
-      )}
+      <Typography variant="h3" component="h1">
+        {loading ? <Skeleton /> : `${weather.name}, ${weather.sys.country}`}
+      </Typography>
     </ItemPaper>
   )
 }

@@ -14,7 +14,7 @@ import ItemPaper from '../components/ItemPaper'
  * Code
 */
 
-export default function Footer() {
+export default function Footer(): JSX.Element {
   return (
     <footer>
       <ItemPaper>
