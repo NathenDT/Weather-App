@@ -1,17 +1,10 @@
-- [ ] Make a cards folder
-- [ ] Make cards:
-  - [ ] pressure
-  - [ ] humidity
-  - [ ] visibility
-  - [ ] cloud percent
-  - [ ] Sun rise/set
-  - [ ] Date 
-- [ ] Make the read me better
-- [ ] Make loading on each card work
 - [ ] Make the .env file work
-- [ ] Add drag and drop of cards
-- [ ] Settings Dialog
-  - [ ] Make the settings dialog work
-  - [ ] Add a close button to settings
-  - [ ] Make settings dialog background the theme kind
-- [ ] Have a offline page
+- [ ] Make all states contexts hooks
+- [ ] Drag and drop
+  - [ ] Make Delete Work
+- [ ] More
+  - [ ] Make a more speed dial
+  - [ ] Settings
+  - [ ] Add
+    - [ ] Make a add cards when deleted
+- [ ] Have a offline page (Maybe)

@@ -3,8 +3,8 @@
 */
 
 /* Local */
-// Interfaces
-import Weather from './interfaces/Weather'
+// Types
+import Weather from './types/Weather'
 
 /*
  * Code

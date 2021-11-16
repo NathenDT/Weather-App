@@ -13,8 +13,8 @@ import { Helmet } from 'react-helmet'
 // Functions
 import isWeatherValid from '../utils/isWeatherValid'
 
-// Interfaces
-import Weather from '../utils/interfaces/Weather'
+// Types
+import Weather from '../utils/types/Weather'
 
 /*
  * Code

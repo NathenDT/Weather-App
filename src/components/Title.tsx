@@ -10,8 +10,8 @@ import { Skeleton, Typography } from '@mui/material'
 // Components
 import ItemPaper from './ItemPaper'
 
-// Interfaces
-import Weather from '../utils/interfaces/Weather'
+// Types
+import Weather from '../utils/types/Weather'
 
 /*
  * Code

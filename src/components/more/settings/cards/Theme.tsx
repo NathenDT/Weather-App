@@ -8,10 +8,10 @@ import { Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material
 
 /* Local */
 // Components
-import ItemPaper from '../../ItemPaper'
+import ItemPaper from '../../../ItemPaper'
 
 // Types
-import ThemeTypes from '../../../utils/types/ThemeTypes'
+import ThemeTypes from '../../../../utils/types/ThemeTypes'
 
 /*
  * Code

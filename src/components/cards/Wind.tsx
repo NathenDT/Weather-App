@@ -10,8 +10,8 @@ import { Skeleton, Typography } from '@mui/material'
 // Components
 import Card from '../Card'
 
-// Interfaces
-import Weather from '../../utils/interfaces/Weather'
+// Types
+import Weather from '../../utils/types/Weather'
 
 /*
  * Code
@@ -24,12 +24,12 @@ type Props = {
 
 export default function WindCard({ loading, weather }: Props): JSX.Element {
   return (
-    <Card>
+    <>
       <Typography variant="h5">Wind</Typography>
       
       <Typography>
         {loading ? <Skeleton /> : weather.wind.speed + ' m/s'}
       </Typography>
-    </Card>
+    </>
   )
 }

@@ -10,8 +10,8 @@ import { Skeleton, Typography } from '@mui/material'
 // Components
 import Card from '../Card'
 
-// Interfaces
-import Weather from '../../utils/interfaces/Weather'
+// Types
+import Weather from '../../utils/types/Weather'
 
 /*
  * Code
@@ -24,7 +24,7 @@ type Props = {
 
 export default function SunCard({ loading, weather }: Props): JSX.Element {
   return (
-    <Card>
+    <>
       <Typography variant="h5">Sun</Typography>
 
       <Typography variant="h6">Sunrise</Typography>
@@ -32,7 +32,7 @@ export default function SunCard({ loading, weather }: Props): JSX.Element {
 
       <Typography variant="h6">Sunset</Typography>
       <Typography variant="body1">{loading ? <Skeleton /> : getTime(weather.sys.sunset)}</Typography>
-    </Card>
+    </>
   )
 }
 

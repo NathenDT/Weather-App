@@ -16,8 +16,8 @@ import TemperatureConverter from '../../utils/TemperatureConverter'
 // Components
 import Card from '../Card'
 
-// Interfaces
-import Weather from '../../utils/interfaces/Weather'
+// Types
+import Weather from '../../utils/types/Weather'
 
 // Types
 import TemperatureUnits from '../../utils/types/TemperatureUnits'
@@ -29,26 +29,26 @@ import TemperatureUnits from '../../utils/types/TemperatureUnits'
 type Props = {
   loading: boolean,
   weather: Weather,
-  tempType: TemperatureUnits
+  temperatureUnits: TemperatureUnits
 }
 
-export default function TemperatureCard({ loading, weather, tempType }: Props): JSX.Element {  
+export default function TemperatureCard({ loading, weather, temperatureUnits }: Props): JSX.Element {  
   return (
-    <Card>
+    <>
       <Title />
 
       <Typography variant="h4">
-        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp, 'K', tempType)}°${tempType}`}
+        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp, 'K', temperatureUnits)}°${temperatureUnits}`}
       </Typography>
 
       <Typography>
-        {loading ? <Skeleton /> : `It feels like ${TemperatureConverter(weather.main.feels_like, 'K', tempType)}°${tempType}`}
+        {loading ? <Skeleton /> : `It feels like ${TemperatureConverter(weather.main.feels_like, 'K', temperatureUnits)}°${temperatureUnits}`}
       </Typography>
 
       <Typography>
-        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp_min, 'K', tempType)}°${tempType} Low to ${TemperatureConverter(weather.main.temp_max, 'K', tempType)}°${tempType} High`}
+        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp_min, 'K', temperatureUnits)}°${temperatureUnits} Low to ${TemperatureConverter(weather.main.temp_max, 'K', temperatureUnits)}°${temperatureUnits} High`}
       </Typography>
-    </Card>
+    </>
   )
 }
 

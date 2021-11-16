@@ -7,11 +7,9 @@ require('dotenv').config()
 /* Dependencies */
 // Functions
 import { useEffect, useState } from 'react'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 
 // Components
 import { ThemeProvider } from '@mui/material/styles'
-import { DndProvider } from 'react-dnd'
 
 // Styles
 import { CssBaseline } from '@mui/material'
@@ -28,12 +26,10 @@ import Index from './pages/index'
 // Styles
 import './styles/App.scss'
 
-// Interfaces
-import Weather from './utils/interfaces/Weather'
-
 // Types
 import TemperatureUnit from './utils/types/TemperatureUnits'
 import ThemeTypes from './utils/types/ThemeTypes'
+import Weather from './utils/types/Weather'
 
 /*
  * Code
@@ -127,20 +123,18 @@ export default function App(): JSX.Element {
         (timeTheme(weather, currentDate) === 'Night' ? darkTheme : lightTheme) :
         (themeType === 'dark' ? darkTheme : lightTheme)
       }>
-        <DndProvider backend={HTML5Backend}>
-          <CssBaseline />
+        <CssBaseline />
 
-          <Index
-            loading={loading}
-            weather={weather}
-            themeType={themeType}
-            tempType={tempType}
-            currentDate={currentDate}
-            error={error}
-            setThemeType={setThemeType}
-            setTempType={setTempType}
-          />
-        </DndProvider>
+        <Index
+          loading={loading}
+          weather={weather}
+          themeType={themeType}
+          temperatureUnits={tempType}
+          currentDate={currentDate}
+          error={error}
+          setThemeType={setThemeType}
+          setTempType={setTempType}
+        />
       </ThemeProvider>
     </>
   )

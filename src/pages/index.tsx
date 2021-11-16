@@ -4,33 +4,28 @@
 
 /* Dependencies */
 // Functions
-import { useDrag } from 'react-dnd'
+import { useState } from 'react'
 
 // Components
 import { Alert, Grid, Stack } from '@mui/material'
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 
 /* Local */
-// Components
-import Footer from '../components/Footer'
-import Settings from '../components/settings/Index'
-import Title from '../components/Title'
-// - Cards
-import CloudCard from '../components/cards/Cloud'
-import DateCard from '../components/cards/Date'
-import HumidityCard from '../components/cards/Humidity'
-import PressureCard from '../components/cards/Pressure'
-import SunCard from '../components/cards/Sun'
-import TemperatureCard from '../components/cards/Temperature'
-import VisiblityCard from '../components/cards/Visibility'
-import WeatherCard from '../components/cards/Weather'
-import WindCard from '../components/cards/Wind'
+// Functions
+import getCardList from '../utils/getCardList'
 
-// Interfaces
-import Weather from '../utils/interfaces/Weather'
+// Components
+import Card from '../components/Card'
+import Footer from '../components/Footer'
+import More from '../components/more/Index'
+import Title from '../components/Title'
 
 // Types
+import CardList from '../utils/types/CardList'
+import CardNames from '../utils/types/CardNames'
 import TemperatureUnit from '../utils/types/TemperatureUnits'
 import ThemeTypes from '../utils/types/ThemeTypes'
+import Weather from '../utils/types/Weather'
 
 /*
  * Code
@@ -40,7 +35,7 @@ type Props = {
   loading: boolean,
   weather: Weather,
   currentDate: Date,
-  tempType: TemperatureUnit,
+  temperatureUnits: TemperatureUnit,
   themeType: ThemeTypes,
   error: string,
   setThemeType: (themeType: ThemeTypes) => void,
@@ -51,55 +46,46 @@ export default function Index({
   loading,
   weather,
   currentDate,
-  tempType,
+  temperatureUnits,
   themeType,
   error,
   setThemeType,
   setTempType,
 }: Props): JSX.Element {
+  const
+    [cardsLeft, setCardsLeft] = useState<CardNames[]>(['weather', 'cloud', 'humidity', 'pressure', 'sun', 'visibility', 'wind']),
+    [cardsRight, setCardsRight] = useState<CardNames[]>(['temperature', 'date'])
 
-  const cards = [
-    [
-      <WeatherCard
-        loading={loading}
-        weather={weather}
-      />,
-      <WindCard
-        loading={loading}
-        weather={weather}
-      />,
-      <CloudCard
-        loading={loading}
-        weather={weather}
-      />,
-      <HumidityCard
-        loading={loading}
-        weather={weather}
-      />,
-      <PressureCard
-        loading={loading}
-        weather={weather}
-      />,
-      <SunCard
-        loading={loading}
-        weather={weather}
-      />,
-      <VisiblityCard
-        loading={loading}
-        weather={weather}
-      />,
-    ],
-    [
-      <TemperatureCard
-        loading={loading}
-        weather={weather}
-        tempType={tempType}
-      />,
-      <DateCard
-        currentDate={currentDate}
-      />
-    ]
-  ]
+  const cardsList: CardList[] = getCardList(loading, weather, currentDate, temperatureUnits)
+
+  const onDragEnd = ({ source, destination }: DropResult) => {
+    if(!destination) return
+
+    if(source.droppableId === destination.droppableId) {
+      if(source.droppableId === 'left') {
+        cardsLeft.splice(destination.index, 0, cardsLeft.splice(source.index, 1)[0])
+
+        return setCardsLeft(cardsLeft)
+      }
+
+      cardsRight.splice(destination.index, 0, cardsRight.splice(source.index, 1)[0])
+
+      return setCardsRight(cardsRight)
+    }
+
+    if(source.droppableId === 'left') {
+      const card = cardsLeft.splice(source.index, 1)[0]
+
+      cardsRight.splice(destination.index, 0, card)
+    } else {
+      const card = cardsRight.splice(source.index, 1)[0]
+
+      cardsLeft.splice(destination.index, 0, card)
+    }
+
+    setCardsLeft(cardsLeft)
+    setCardsRight(cardsRight)
+  }
   
   return (
     <>
@@ -110,21 +96,32 @@ export default function Index({
         weather={weather}
       />
 
-      <Grid container>
-        <Column>
-          {cards[0]}
-        </Column>
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Grid container>
+          <Column
+            dropId="left"
+            cards={cardsLeft}
+            cardsList={cardsList}
+            setCards={setCardsLeft}
+          />
 
-        <Column>
-          {cards[1]}
-        </Column>
-      </Grid>        
+          <Column
+            dropId="right"
+            cards={cardsRight}
+            cardsList={cardsList}
+            setCards={setCardsRight}
+          />
+        </Grid>
+      </DragDropContext>
 
       <Footer />
 
-      <Settings
-        tempType={tempType}
+      <More
+        cardLeft={cardsLeft}
+        cardRight={cardsRight}
+        temperatureUnit={temperatureUnits}
         themeType={themeType}
+        setCards={setCardsLeft}
         setTempType={setTempType}
         setThemeType={setThemeType}
       />
@@ -133,18 +130,37 @@ export default function Index({
 }
 
 type ColumnProps = {
-  children: any
+  dropId: 'left' | 'right',
+  cards: CardNames[],
+  cardsList: CardList[],
+  setCards: (cards: CardNames[]) => void,
 }
 
-function Column({ children }: ColumnProps): JSX.Element {
+function Column({ dropId, cards, cardsList, setCards }: ColumnProps): JSX.Element {
   return (
     <Grid
       item
       xs={6}
     >
-      <Stack>
-        {children}
-      </Stack>
+      <Droppable droppableId={dropId}>
+        {(provided, snapshot) => (
+          <Stack ref={provided.innerRef}>
+            {cards.map((name: CardNames, index: number) => (
+              <Card
+                key={index}
+                name={name}
+                index={index}
+                cards={cards}
+                setCards={setCards}
+              >
+                {cardsList.find(card => card.name === name)?.component}
+              </Card>
+            ))}
+
+            {provided.placeholder}
+          </Stack>
+        )}
+      </Droppable>
     </Grid>
   )
 }

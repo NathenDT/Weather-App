@@ -4,7 +4,7 @@
 
 /* Local */
 // Functions
-import Weather from './interfaces/Weather'
+import Weather from './types/Weather'
 
 /*
  * Code
