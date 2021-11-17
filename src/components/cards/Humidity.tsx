@@ -7,9 +7,6 @@
 import { Skeleton, Typography } from '@mui/material'
 
 /* Locals */
-// Components
-import Card from '../Card'
-
 // Types
 import Weather from '../../utils/types/Weather'
 
@@ -27,7 +24,7 @@ export default function HumidityCard({ loading, weather }: Props): JSX.Element {
     <>
       <Typography variant="h5">Humidity</Typography>
 
-      <Typography>{loading ? <Skeleton /> : weather.main.humidity}</Typography>
+      <Typography>{loading ? <Skeleton /> : `${weather.main.humidity}%`}</Typography>
     </>
   )
 }

@@ -1,10 +1,10 @@
-- [ ] Make the .env file work
+- [ ] Make the .env file work or change from .env file
+- [ ] Make all units corret
 - [ ] Make all states contexts hooks
-- [ ] Drag and drop
-  - [ ] Make Delete Work
+- [ ] Make cards be saved in cookies
 - [ ] More
-  - [ ] Make a more speed dial
   - [ ] Settings
+  - [ ] Make settings page look better
   - [ ] Add
-    - [ ] Make a add cards when deleted
+    - [ ] Make add page look better
 - [ ] Have a offline page (Maybe)

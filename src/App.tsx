@@ -1,5 +1,3 @@
-require('dotenv').config()
-
 /*
  * Imports
 */
@@ -35,7 +33,7 @@ import Weather from './utils/types/Weather'
  * Code
 */
 
-const APIKEY = process.env.APIKEY || 'b5220e56efb144f47112992e18a84270'
+const APIKEY = 'b5220e56efb144f47112992e18a84270'
 
 const darkTheme: Theme = createTheme({
   palette: {

@@ -7,9 +7,6 @@
 import { Skeleton, Typography } from '@mui/material'
 
 /* Locals */
-// Components
-import Card from '../Card'
-
 // Types
 import Weather from '../../utils/types/Weather'
 
@@ -27,7 +24,15 @@ export default function VisibilityCard({ loading, weather }: Props): JSX.Element
     <>
       <Typography variant="h5">Visibility</Typography>
 
-      <Typography>{loading ? <Skeleton /> : weather.visibility}</Typography>
+      <Typography>{loading ? <Skeleton /> : getVisibility(weather.visibility)}</Typography>
     </>
   )
+}
+
+function getVisibility(visibility: number): string {
+  if (visibility < 1000) {
+    return `${visibility} m`
+  }
+
+  return `${(visibility / 1000).toFixed(1)} km`
 }

@@ -13,9 +13,6 @@ import { Thermostat } from '@mui/icons-material'
 // Function
 import TemperatureConverter from '../../utils/TemperatureConverter'
 
-// Components
-import Card from '../Card'
-
 // Types
 import Weather from '../../utils/types/Weather'
 

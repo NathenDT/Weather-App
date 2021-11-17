@@ -7,9 +7,6 @@
 import { Skeleton, Typography } from '@mui/material'
 
 /* Locals */
-// Components
-import Card from '../Card'
-
 // Types
 import Weather from '../../utils/types/Weather'
 

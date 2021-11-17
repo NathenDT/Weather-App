@@ -6,10 +6,6 @@
 // Components
 import { Typography } from '@mui/material'
 
-/* Locals */
-// Components
-import Card from '../Card'
-
 /*
  * Code
 */

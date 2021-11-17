@@ -53,8 +53,8 @@ export default function Index({
   setTempType,
 }: Props): JSX.Element {
   const
-    [cardsLeft, setCardsLeft] = useState<CardNames[]>(['weather', 'cloud', 'humidity', 'pressure', 'sun', 'visibility', 'wind']),
-    [cardsRight, setCardsRight] = useState<CardNames[]>(['temperature', 'date'])
+    [cardsLeft, setCardsLeft] = useState<CardNames[]>(['weather', 'sun', 'cloud', 'humidity']),
+    [cardsRight, setCardsRight] = useState<CardNames[]>(['temperature', 'date', 'wind', 'visibility', 'pressure'])
 
   const cardsList: CardList[] = getCardList(loading, weather, currentDate, temperatureUnits)
 
