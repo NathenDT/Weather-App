@@ -14,7 +14,7 @@ import App from './App'
  * Code
 */
 
-ReactDOM.render(
+ReactDOM.render( // Renders the App component
   <App />,
   document.getElementById('root')
 )

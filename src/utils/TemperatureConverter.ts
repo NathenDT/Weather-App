@@ -10,7 +10,7 @@ import TemperatureUnits from './types/TemperatureUnits'
  * Code
 */
 
-export default function TemperatureConverter(temperature: number, fromUnit: TemperatureUnits, toUnit: TemperatureUnits): number {
+export default function temperatureConverter(temperature: number, fromUnit: TemperatureUnits, toUnit: TemperatureUnits): number {
   if (fromUnit === toUnit) return temperature
 
   if(toUnit === 'F') return covertToFarhenheit(temperature, fromUnit)

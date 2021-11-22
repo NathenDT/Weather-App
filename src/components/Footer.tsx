@@ -18,7 +18,7 @@ export default function Footer(): JSX.Element {
   return (
     <footer>
       <ItemPaper>
-        <Typography>© 2021 | Nathen dela Torre</Typography>
+        <Typography>Created by Nathen dela Torre</Typography>
       </ItemPaper>
     </footer>
   )

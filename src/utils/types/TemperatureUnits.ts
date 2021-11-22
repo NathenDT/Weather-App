@@ -1,3 +1,3 @@
-type TemperatureUnit = 'C' | 'F' | 'K'
+type TemperatureUnits = 'C' | 'F' | 'K'
 
-export default TemperatureUnit
+export default TemperatureUnits

@@ -5,8 +5,10 @@
 /* Dependencies */
 // Functions
 import { useEffect, useState } from 'react'
+import Cookies from 'universal-cookie'
 
 // Components
+import { Alert } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 
 // Styles
@@ -14,26 +16,35 @@ import { CssBaseline } from '@mui/material'
 import { createTheme, Theme } from '@mui/material/styles'
 
 /* Local */
-// Function
-import timeTheme from './utils/timeTheme'
+// Functions
+import getCardList from './utils/getCardList'
 
 // Components
+import Footer from './components/Footer'
 import Head from './components/Head'
-import Index from './pages/index'
+import Main from './components/Main'
+import More from './components/more/Index'
+import Title from './components/Title'
+import ToggleCookies from './components/ToggleCookies'
 
 // Styles
 import './styles/App.scss'
 
+// Jsons
+import constants from './constants.json'
+
 // Types
-import TemperatureUnit from './utils/types/TemperatureUnits'
+import CardList from './utils/types/CardList'
+import CardNames from './utils/types/CardNames'
 import ThemeTypes from './utils/types/ThemeTypes'
+import Units from './utils/types/Units'
 import Weather from './utils/types/Weather'
 
 /*
  * Code
 */
 
-const APIKEY = 'b5220e56efb144f47112992e18a84270'
+const APIKEY = constants.api_key
 
 const darkTheme: Theme = createTheme({
   palette: {
@@ -59,7 +70,13 @@ const lightTheme: Theme = createTheme({
 
 export default function App(): JSX.Element {
   const
+    [cardsLeft, setCardsLeft] = useState<CardNames[]>(['weather', 'sun', 'cloud', 'humidity']),
+    [cardsRight, setCardsRight] = useState<CardNames[]>(['temperature', 'date', 'wind', 'visibility', 'pressure']),
+    [currentDate, setCurrentDate] = useState<Date>(new Date()),
+    [error, setError] = useState<string>(''),
     [loading, setLoading] = useState<boolean>(true),
+    [themeType, setThemeType] = useState<ThemeTypes>('time'),
+    [unitType, setUnitType] = useState<Units>('metric'),
     [weather, setWeather] = useState<Weather>({
       coord: { lon: 0, lat: 0 },
       weather: [{ id: 0, main: '', description: '', icon: '' }],
@@ -74,26 +91,28 @@ export default function App(): JSX.Element {
       id: 0,
       name: '',
       cod: 0
-    }),
-    [currentDate, setCurrentDate] = useState<Date>(new Date()),
-    [tempType, setTempType] = useState<TemperatureUnit>('F'),
-    [themeType, setThemeType] = useState<ThemeTypes>('dark'),
-    [error, setError] = useState<string>('')
+    })
 
-  useEffect(() => {
-    if(!navigator.geolocation) return setError(`Can't get your location weather`)
+  const cardsList: CardList[] = getCardList(loading, weather, currentDate, unitType)
 
-    getPositionWeather().then((_weather: Weather | null) => {
+  useEffect(() => { // On load
+    if(!navigator.geolocation) return setError(`Can't get your location weather`) // When the browser doesn't support geolocation
+    
+    getCookies(setCardsLeft, setCardsRight, setThemeType)
+
+    getPositionWeather().then((_weather: Weather | null) => { // Get the weather from the current position
       if(!_weather) return setError(`Can't get your location weather`)
 
       setWeather(_weather)
 
       setLoading(false)
-      
-      // console.log(_weather)
+
+      const countryCode: string = _weather.sys.country.toUpperCase()
+
+      if(countryCode === 'US' || countryCode === 'MM' || countryCode === 'LR') setUnitType('imperial')
     })
 
-    const interval = setInterval(() => {
+    const weatherInterval = setInterval(() => { // Update the weather hourly
       getPositionWeather().then((_weather: Weather | null) => {
         if(!_weather) return setError(`Can't get your location weather`)
 
@@ -101,20 +120,22 @@ export default function App(): JSX.Element {
       })
     }, 1000 * 60 * 60) // One Hour
 
-    const intervalDate = setInterval(() => {
+    const dateInterval = setInterval(() => { // Update the date
       setCurrentDate(new Date())
     }, 100) // One Hundred Milliseconds
 
-    return () => {
-      clearInterval(interval)
-
-      clearInterval(intervalDate)
+    return () => { // On unload
+      clearInterval(weatherInterval)
+      clearInterval(dateInterval)
     }
   }, [])
 
   return (
     <>
-      <Head weather={weather} />
+      <Head
+        loading={loading}
+        weather={weather}
+      />
 
       <ThemeProvider theme={
         themeType === 'time' ?
@@ -123,22 +144,45 @@ export default function App(): JSX.Element {
       }>
         <CssBaseline />
 
-        <Index
+        <ToggleCookies />
+
+        {Boolean(error) && <Alert
+          severity="error"
+          style={{ margin: '0.25em' }}
+        >
+          {error}
+        </Alert>}
+
+        <Title
           loading={loading}
           weather={weather}
+        />
+
+        <Main
+          cardsLeft={cardsLeft}
+          cardsList={cardsList}
+          cardsRight={cardsRight}
+          setCardsLeft={setCardsLeft}
+          setCardsRight={setCardsRight}
+        />
+
+        <Footer />
+
+        <More
+          cardLeft={cardsLeft}
+          cardRight={cardsRight}
           themeType={themeType}
-          temperatureUnits={tempType}
-          currentDate={currentDate}
-          error={error}
+          unitType={unitType}
+          setCards={setCardsLeft}
           setThemeType={setThemeType}
-          setTempType={setTempType}
+          setUnitType={setUnitType}
         />
       </ThemeProvider>
     </>
   )
 }
 
-async function getPositionWeather(): Promise<Weather | null> {
+async function getPositionWeather(): Promise<Weather | null> { // Get the weather from the current position
   const [latitude, longitude] = await getPosition()
 
   const APIURL: string = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude.toString()}&lon=${longitude.toString()}&appid=${APIKEY}`
@@ -150,7 +194,32 @@ async function getPositionWeather(): Promise<Weather | null> {
   return response.json()
 }
 
-function getPosition(): Promise<[number, number]> {
+function getCookies( // Gets cookies and updates the states
+  setCardsLeft: (cardsLeft: CardNames[]) => void,
+  setCardsRight: (cardsRight: CardNames[]) => void,
+  setThemeType: (themeType: ThemeTypes) => void
+) {
+  const cookies = new Cookies()
+  
+  const cardNames: string[] = ['cloud', 'date', 'humidity', 'pressure', 'sun', 'temperature', 'visibility', 'weather', 'wind']
+  const themeTypes: string[] = ['dark', 'light', 'time']
+
+  const cardsLeft = cookies.get('cardsLeft')
+  const cardsRight = cookies.get('cardsRight')
+  const themeType = cookies.get('themeType')
+
+  if(cardsLeft) setCardsLeft(cardsLeft.split('|').filter((name: string) => {
+    return cardNames.includes(name)
+  }))
+
+  if(cardsRight) setCardsRight(cardsRight.split('|').filter((name: string) => {
+    return cardNames.includes(name)
+  }))
+
+  if(themeTypes.includes(themeType)) setThemeType(themeType)
+}
+
+function getPosition(): Promise<[number, number]> { // Get the current position
   return new Promise((resolve) => {
     navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords
@@ -158,4 +227,13 @@ function getPosition(): Promise<[number, number]> {
       resolve([latitude, longitude])
     })
   })
+}
+
+function timeTheme(weather: Weather, currentDate: Date): 'Day' | 'Night' { // Get the current time theme
+  const sunrise = new Date(weather.sys.sunrise * 1000)
+  const sunset = new Date(weather.sys.sunset * 1000)
+
+  if (currentDate.getTime() > sunrise.getTime() && currentDate.getTime() < sunset.getTime()) return 'Day'
+  
+  return 'Night'
 }

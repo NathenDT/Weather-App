@@ -3,16 +3,10 @@
 */
 
 /* Dependencies */
-// Functions
-import { useEffect, useState } from 'react'
-
 // Components
 import { Helmet } from 'react-helmet'
 
 /* Local */
-// Functions
-import isWeatherValid from '../utils/isWeatherValid'
-
 // Types
 import Weather from '../utils/types/Weather'
 
@@ -21,30 +15,19 @@ import Weather from '../utils/types/Weather'
 */
 
 type Props = {
+  loading: boolean,
   weather: Weather
 }
 
-export default function Head({ weather }: Props): JSX.Element {
-  const
-    [iconID, setIconID] = useState('01d'),
-    [title, setTitle] = useState('Weather App')
-
-  useEffect(() => {
-    if(!isWeatherValid(weather)) return
-
-    setIconID(weather.weather[0].icon)
-
-    setTitle(`${weather.name} has ${weather.weather[0].main}`)
-  }, [weather])
-
+export default function Head({ loading, weather }: Props): JSX.Element {
   return (
     <Helmet>
       <link
         rel="icon"
-        href={`https://openweathermap.org/img/wn/${iconID}@2x.png`}
+        href={loading ? 'http://openweathermap.org/img/wn/01d@2x.png' : `https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
       />
 
-      <title>{title}</title>
+      <title>{loading ? 'Weather App' : `${weather.name} has ${weather.weather[0].main}`}</title>
     </Helmet>
   )
 }

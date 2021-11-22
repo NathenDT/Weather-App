@@ -8,12 +8,12 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid } from 
 
 /* Locals */
 // Components
-import TemperatureUnit from './cards/TemperatureUnit'
 import Theme from './cards/Theme'
+import Unit from './cards/Unit'
 
 // Types
-import TemperatureUnits from '../../../utils/types/TemperatureUnits'
 import ThemeTypes from '../../../utils/types/ThemeTypes'
+import Units from '../../../utils/types/Units'
 
 /*
  * Code
@@ -21,14 +21,21 @@ import ThemeTypes from '../../../utils/types/ThemeTypes'
 
 type Props = {
   open: boolean,
-  tempType: TemperatureUnits,
   themeType: ThemeTypes,
+  unitType: Units,
   setOpen: (open: boolean) => void,
-  setTempType: (tempType: TemperatureUnits) => void,
-  setThemeType: (themeType: ThemeTypes) => void
+  setThemeType: (themeType: ThemeTypes) => void,
+  setUnitType: (unitType: Units) => void,
 }
 
-export default function Settings({ open, tempType, themeType, setOpen, setTempType, setThemeType }: Props): JSX.Element {
+export default function Settings({
+  open,
+  themeType,
+  unitType,
+  setOpen,
+  setThemeType,
+  setUnitType,
+}: Props): JSX.Element {
   const handleClose = () => {
     setOpen(false)
   }
@@ -47,10 +54,10 @@ export default function Settings({ open, tempType, themeType, setOpen, setTempTy
       <DialogTitle>Settings</DialogTitle>
 
       <DialogContent>
-        <Grid container>
-          <TemperatureUnit
-            tempType={tempType}
-            setTempType={setTempType}
+        <Grid container columns={{ xs: 6, sm: 12 }}>
+          <Unit
+            unitType={unitType}
+            setUnitType={setUnitType}
           />
 
           <Theme

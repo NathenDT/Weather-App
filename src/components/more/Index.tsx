@@ -19,8 +19,8 @@ import Settings from './settings/Index'
 
 // Types
 import CardNames from '../../utils/types/CardNames'
-import TemperatureUnits from '../../utils/types/TemperatureUnits'
 import ThemeTypes from '../../utils/types/ThemeTypes'
+import Units from '../../utils/types/Units'
 
 /*
  * Code
@@ -29,14 +29,22 @@ import ThemeTypes from '../../utils/types/ThemeTypes'
 type Props = {
   cardLeft: CardNames[],
   cardRight: CardNames[],
-  temperatureUnit: TemperatureUnits,
   themeType: ThemeTypes,
+  unitType: Units,
   setCards: (cards: CardNames[]) => void,
-  setTempType: (tempType: TemperatureUnits) => void,
-  setThemeType: (themeType: ThemeTypes) => void
+  setThemeType: (themeType: ThemeTypes) => void,
+  setUnitType: (unitType: Units) => void,
 }
 
-export default function More({ cardLeft, cardRight, temperatureUnit, themeType, setCards, setTempType, setThemeType }: Props): JSX.Element {
+export default function More({
+  cardLeft,
+  cardRight,
+  themeType,
+  unitType,
+  setCards,
+  setThemeType,
+  setUnitType
+}: Props): JSX.Element {
   const
     [addOpen, setAddOpen] = useState<boolean>(false),
     [settingsOpen, setSettingsOpen] = useState<boolean>(false)
@@ -77,11 +85,11 @@ export default function More({ cardLeft, cardRight, temperatureUnit, themeType, 
 
       <Settings
         open={settingsOpen}
-        tempType={temperatureUnit}
         themeType={themeType}
+        unitType={unitType}
         setOpen={setSettingsOpen}
-        setTempType={setTempType}
         setThemeType={setThemeType}
+        setUnitType={setUnitType}
       />
     </>
   )

@@ -23,13 +23,13 @@ import CardNames from '../utils/types/CardNames'
 
 type Props = {
   children: any,
-  name: CardNames,
-  index: number,
   cards: CardNames[],
+  index: number,
+  name: CardNames,
   setCards: (cards: CardNames[]) => void,
 }
 
-export default function Card({ children, name, index, cards, setCards }: Props): JSX.Element {
+export default function Card({ children, cards, index, name, setCards }: Props): JSX.Element {
   const handleDelete = () => setCards(cards.filter((_: CardNames, _index: number) => _index !== index))
 
   return (
@@ -38,7 +38,7 @@ export default function Card({ children, name, index, cards, setCards }: Props):
       draggableId={name}
       index={index}
     >
-      {(provided, snapshot) => (
+      {(provided) => (
         <ItemPaper
           ref={provided.innerRef}
           {...provided.draggableProps}

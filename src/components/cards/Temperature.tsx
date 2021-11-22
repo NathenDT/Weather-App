@@ -6,18 +6,16 @@
 // Components
 import { Skeleton, Typography } from '@mui/material'
 
-// Styles
-import { Thermostat } from '@mui/icons-material'
-
 /* Local */
 // Function
-import TemperatureConverter from '../../utils/TemperatureConverter'
+import temperatureConverter from '../../utils/temperatureConverter'
 
 // Types
 import Weather from '../../utils/types/Weather'
 
 // Types
 import TemperatureUnits from '../../utils/types/TemperatureUnits'
+import Units from '../../utils/types/Units'
 
 /*
  * Code
@@ -26,33 +24,36 @@ import TemperatureUnits from '../../utils/types/TemperatureUnits'
 type Props = {
   loading: boolean,
   weather: Weather,
-  temperatureUnits: TemperatureUnits
+  unitType: Units
 }
 
-export default function TemperatureCard({ loading, weather, temperatureUnits }: Props): JSX.Element {  
+export default function TemperatureCard({ loading, weather, unitType }: Props): JSX.Element {
+  const temperatureUnit: TemperatureUnits = unitType === 'imperial' ? 'F' : 'C'
+
   return (
     <>
-      <Title />
+      <Typography variant="h5">
+        Temperature
+      </Typography>
 
       <Typography variant="h4">
-        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp, 'K', temperatureUnits)}°${temperatureUnits}`}
+        {loading ? <Skeleton /> :
+          `${temperatureConverter(weather.main.temp, 'K', temperatureUnit)}°${temperatureUnit}`
+        }
       </Typography>
 
       <Typography>
-        {loading ? <Skeleton /> : `It feels like ${TemperatureConverter(weather.main.feels_like, 'K', temperatureUnits)}°${temperatureUnits}`}
+        {loading ? <Skeleton /> :
+          `It feels like ${temperatureConverter(weather.main.feels_like, 'K', temperatureUnit)}°${temperatureUnit}`
+        }
       </Typography>
 
       <Typography>
-        {loading ? <Skeleton /> : `${TemperatureConverter(weather.main.temp_min, 'K', temperatureUnits)}°${temperatureUnits} Low to ${TemperatureConverter(weather.main.temp_max, 'K', temperatureUnits)}°${temperatureUnits} High`}
+        {loading ? <Skeleton /> :
+          `${temperatureConverter(weather.main.temp_min, 'K', temperatureUnit)}°${temperatureUnit} Low 
+          to ${temperatureConverter(weather.main.temp_max, 'K', temperatureUnit)}°${temperatureUnit} High`
+        }
       </Typography>
     </>
-  )
-}
-
-function Title(): JSX.Element {
-  return (
-    <Typography variant="h5">
-      <Thermostat style={{ fontSize: '1.5rem' }} /> Temperature
-    </Typography>
   )
 }

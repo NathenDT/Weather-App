@@ -16,7 +16,7 @@ import WindCard from '../components/cards/Wind'
 
 // Types
 import CardList from './types/CardList'
-import TemperatureUnits from './types/TemperatureUnits'
+import Units from './types/Units'
 import Weather from './types/Weather'
 
 /*
@@ -27,7 +27,7 @@ export default function getCardList(
   loading: boolean,
   weather: Weather,
   currentDate: Date,
-  temperatureUnits: TemperatureUnits
+  unitType: Units,
 ): CardList[] {
   return [
     {
@@ -44,7 +44,7 @@ export default function getCardList(
     },
     {
       name: 'pressure',
-      component: PressureCard({ loading, weather }),
+      component: PressureCard({ loading, unitType, weather }),
     },
     {
       name: 'sun',
@@ -52,7 +52,7 @@ export default function getCardList(
     },
     {
       name: 'temperature',
-      component: TemperatureCard({ loading, weather, temperatureUnits }),
+      component: TemperatureCard({ loading, unitType, weather }),
     },
     {
       name: 'visibility',
@@ -64,7 +64,7 @@ export default function getCardList(
     },
     {
       name: 'wind',
-      component: WindCard({ loading, weather }),
+      component: WindCard({ loading, unitType, weather }),
     },
   ]
 }
