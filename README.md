@@ -24,11 +24,13 @@ npm install
 
 ### 3. Get API key:
 
-Go to https://openweathermap.org/api and sign up for an account. Then subscribe to the "Current Weather Data" API. You will receive an API key and you need to put it in the `App.tsx` file.
-In the `App.tsx` file, on line 33, you will find the following code:
+Go to https://openweathermap.org/api and sign up for an account. Then subscribe to the "Current Weather Data" API. You will receive an API key and you need to put it in the `src/constants.json` file.
+In the `src/constants.json` file, on line 33, you will find the following code:
 
 ```
-const APIKEY=<your_api_key>
+{
+  "api_key": "<your_api_key>"
+}
 ```
 
 and you need to replace `<your_api_key>` with your API key.
