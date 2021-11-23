@@ -25,7 +25,7 @@ npm install
 ### 3. Get API key:
 
 Go to https://openweathermap.org/api and sign up for an account. Then subscribe to the "Current Weather Data" API. You will receive an API key and you need to put it in the `src/constants.json` file.
-In the `src/constants.json` file, on line 33, you will find the following code:
+In the `src/constants.json` file you will find the following code:
 
 ```
 {
