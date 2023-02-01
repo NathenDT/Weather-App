@@ -4,9 +4,15 @@
   "main": "index.js",
   "repository": "https://github.com/N20Code/Weather-App.git",
   "author": "Nathen dela Torre <35028757+N20Code@users.noreply.github.com>",
+  "homepage": "https://NathenDT.github.io/Weather-App",
   "license": "MIT",
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "@emotion/react": "^11.5.0",
@@ -21,6 +27,7 @@
     "@types/react-helmet": "^6.1.4",
     "@types/react-router": "^5.1.17",
     "@types/react-router-dom": "^5.3.2",
+    "gh-pages": "^4.0.0",
     "react": "^17.0.2",
     "react-beautiful-dnd": "^13.1.0",
     "react-dom": "^17.0.2",

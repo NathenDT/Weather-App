@@ -1,24 +1,36 @@
 /*
  * Imports
-*/
+ */
 
 /* Dependencies */
 // Components
-import { Typography } from '@mui/material'
+import { Button, Typography } from "@mui/material"
 
 /* Local */
 // Components
-import ItemPaper from '../components/ItemPaper'
+import ItemPaper from "../components/ItemPaper"
 
 /*
  * Code
-*/
+ */
 
 export default function Footer(): JSX.Element {
   return (
     <footer>
       <ItemPaper>
-        <Typography>Created by Nathen dela Torre</Typography>
+        <Button
+          variant='contained'
+          color='secondary'
+          onClick={() =>
+            window.open(
+              "https://github.com/NathenDT/Weather-App",
+              "_blank",
+              "noreferrer"
+            )
+          }
+        >
+          See the code
+        </Button>
       </ItemPaper>
     </footer>
   )
